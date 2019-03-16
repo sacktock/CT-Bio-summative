@@ -5,7 +5,77 @@ import sys
 
 # YOUR FUNCTIONS GO HERE -------------------------------------
 # 1. Populate the scoring matrix and the backtracking matrix
+def al(s1, s2):
+    alignment = ['','']
+    n1, n2 = len(s1), len(s2)
+    SM = [[0 for i in range(n1+1)] for j in range(n2+1)]
+    BM = [[0 for i in range(n1+1)] for j in range(n2+1)]
 
+    for i in range(n1+1):
+        SM[0][i] = -2*i
+        BM[0][i] = 'L'
+
+    for i in range(n2+1):
+        SM[i][0] = -2*i
+        BM[i][0] = 'U'
+
+    for j in range(1,n2+1):
+        for i in range(1,n1+1):
+            D = c(s1[i-1],s2[j-1]) + SM[j-1][i-1]
+            L = SM[j][i-1] - 2
+            U = SM[j-1][i] - 2
+            m = max(D,L,U)
+            SM[j][i] = m
+            if m == D: #prioritize diagonal 
+                BM[j][i] = 'D'
+            elif m == L:
+                BM[j][i] = 'L'
+            else:
+                BM[j][i] = 'U'
+
+    score = SM[n2][n1]
+
+    i = n1
+    j = n2
+    while True:
+        m = BM[j][i]
+        if m == 'D':
+            alignment[0] += s1[i-1]
+            alignment[1] += s2[j-1]
+            i = i - 1
+            j = j - 1
+        elif m == 'L':
+            alignment[0] += s1[i-1]
+            alignment[1] += '_'
+            i = i - 1
+        else:
+            alignment[0] += '_'
+            alignment[1] += s2[j-1]
+            j = j - 1
+
+        if i == 0 and j == 0:
+            break
+            
+    alignment[0] = alignment[0][::-1]
+    alignment[1] = alignment[1][::-1]
+
+    return alignment, score
+                  
+def c(i,j):
+    if i == j:
+        if i == 'A':
+            return 4
+        elif i == 'C':
+            return 3
+        elif i == 'G':
+            return 2
+        else:
+            return 1
+    else:
+        return -3
+        
+        
+        
 # ------------------------------------------------------------
 
 
@@ -48,7 +118,7 @@ start = time.time()
 # Intialise the scoring matrix and backtracking matrix and call the function to populate them
 # Use the backtracking matrix to find the optimal alignment 
 # To work with the printing functions below the best alignment should be called best_alignment and its score should be called best_score. 
-
+best_alignment, best_score = al(seq1,seq2)
 
 
 #-------------------------------------------------------------
