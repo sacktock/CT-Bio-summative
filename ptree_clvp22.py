@@ -1,4 +1,5 @@
 import networkx as nx
+import matplotlib.pyplot as plt
 
 def WPGMA(fileName):
     T = nx.Graph()
@@ -57,8 +58,11 @@ def WPGMA(fileName):
         M[x][0] += v[0]
         print_matrix(M)
         grow_tree(T,species1,species2)
-    print(T.edges())
-    #draw T into a file somehow
+
+    name = fileName.split('.')[0]
+    plt.title('Tree solution for '+fileName)
+    nx.draw(T,node_size=1600,with_labels=True)
+    plt.savefig(name+'.png')
     
 def grow_tree(T,a,b):
     if not T.has_node(a):
@@ -68,8 +72,8 @@ def grow_tree(T,a,b):
     if not T.has_node(a+b):
         T.add_node(a+b)
 
-    T.add_edge(a,a+b)
-    T.add_edge(b,a+b)
+    T.add_edge(a+b,a)
+    T.add_edge(a+b,b)
         
 def print_matrix(M):
     print()
