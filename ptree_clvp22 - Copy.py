@@ -14,12 +14,10 @@ def WPGMA(fileName):
 
     if len(M) < 3:
         print('Matrix too small error')
-        stop_time(start)
         return
             
     if len(M) != len(M[0]):
         print('Matrix is not square error')
-        stop_time(start)
         return
     
     for i in range(1,len(M)):
@@ -28,7 +26,6 @@ def WPGMA(fileName):
                 M[i][j] = float(M[i][j])
             except:
                 print('Invalid matrix error')
-                stop_time(start)
                 return
             
     print_matrix(M)
@@ -61,13 +58,13 @@ def WPGMA(fileName):
         
         for i in range(1,n):
             if i != x:
-                M[x][i] = (M[x][i] + v[i]) / 2
+                M[x][i] = (len(species1)*M[x][i] + len(species2)*v[i]) / (len(species1)+len(species2))
             else:
                 M[x][i] = 0.0
                 
         for i in range(1,n):
             if i != x:
-                M[i][x] = (M[i][x] + v[i]) / 2
+                M[i][x] = (len(species1)*M[i][x] + len(species2)*v[i]) / (len(species1)+len(species2))
             else:
                 M[i][x] = 0.0
 
@@ -80,12 +77,10 @@ def WPGMA(fileName):
     nx.draw(T,node_size=1600,with_labels=True)
     plt.title('Tree solution for '+fileName)
     plt.savefig(name+'.png', format='PNG')
-    stop_time(start)
-
-def stop_time(start):
     stop = time.time()
     time_taken=stop-start
     print('Time taken: '+str(time_taken))
+    
     
 def grow_tree(T,a,b):
     if not T.has_node(a):
@@ -103,6 +98,6 @@ def print_matrix(M):
     for m in M:
         print(m)
     print()
-
+        
 WPGMA('matrix1.txt')
 WPGMA('matrix2.txt')

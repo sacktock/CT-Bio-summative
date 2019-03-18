@@ -6,6 +6,13 @@ import sys
 # YOUR FUNCTIONS GO HERE -------------------------------------
 # 1. Populate the scoring matrix and the backtracking matrix
 def al(s1, s2):
+    try:
+        s1 = str(s1)
+        s2 = str(s2)
+    except:
+        print('Invalid inputs error')
+        return
+    
     alignment = ['','']
     n1, n2 = len(s1), len(s2)
     SM = [[0 for i in range(n1+1)] for j in range(n2+1)]
