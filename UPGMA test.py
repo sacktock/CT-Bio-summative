@@ -2,7 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import time
 
-def WPGMA(fileName):
+def UPGMA(fileName):
     start = time.time()
     T = nx.Graph()
     file = open(fileName, 'r')
@@ -99,5 +99,5 @@ def print_matrix(M):
         print(m)
     print()
         
-WPGMA('matrix1.txt')
-WPGMA('matrix2.txt')
+UPGMA('matrix1.txt')
+UPGMA('matrix2.txt')
